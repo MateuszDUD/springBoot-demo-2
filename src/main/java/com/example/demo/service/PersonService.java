@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.model.PersonJpa;
 import com.example.demo.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.Optional;
 
 @Service
 public class PersonService {
+
+    private static Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     @Autowired
     private PersonRepository repository;
@@ -37,6 +41,7 @@ public class PersonService {
     public boolean deletePersonById(long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
+            logger.info("One person deleted. ID: " + id);
             return true;
         } else {
             return false;

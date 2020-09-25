@@ -5,6 +5,8 @@ import com.example.demo.model.PersonJpa;
 import com.example.demo.model.Quote;
 import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.PersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("api/jpa/person")
 @RestController
 public class PersonController {
+    private static Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private PersonService personService;
 
@@ -32,18 +35,24 @@ public class PersonController {
 
     @GetMapping(path = "{lastName}")
     public List<PersonJpa> getPeopleByLastName(@PathVariable String lastName) {
-        return personService.getPeopleByLastName(lastName);
+        List<PersonJpa> listOfPeople = personService.getPeopleByLastName(lastName);
+        return listOfPeople;
     }
 
     @GetMapping
     public Iterable<PersonJpa> getAllPeople() {
+        logger.info("An INFO Message");
+        logger.warn("A WARN Message");
+        logger.error("An ERROR Message");
         return personService.getAllPeople();
     }
 
     @GetMapping(path = "/id/{id}")
     public PersonJpa getPersonById(@PathVariable long id) {
-        return personService.getPersonById(id)
+        PersonJpa person = personService.getPersonById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
+        logger.info("found person with id: " + person.getId());
+        return person;
     }
 
     @DeleteMapping(path = "{id}")
@@ -54,7 +63,7 @@ public class PersonController {
                     .build();
         } else {
             return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .status(HttpStatus.NOT_FOUND)
                     .build();
         }
     }
