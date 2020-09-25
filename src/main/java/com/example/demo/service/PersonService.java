@@ -44,7 +44,11 @@ public class PersonService {
     }
 
     public Optional<PersonJpa> getPersonById(long id) {
-        return repository.findById(Long.valueOf(id));
+        if (repository.existsById(Long.valueOf(id))) {
+            return repository.findById(Long.valueOf(id));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public PersonJpa getPersonByFirstName(String firstName) {

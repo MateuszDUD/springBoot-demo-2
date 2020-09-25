@@ -40,10 +40,10 @@ public class PersonController {
         return personService.getAllPeople();
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/id/{id}")
     public PersonJpa getPersonById(@PathVariable long id) {
         return personService.getPersonById(id)
-                .orElse(null);
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @DeleteMapping(path = "{id}")
