@@ -7,6 +7,8 @@ import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,19 +47,16 @@ public class PersonController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deletePersonById(@PathVariable long id) {
-        if (!personService.deletePersonById(id)) {
-            throw new PersonNotFoundException("id not exist");
+    public ResponseEntity deletePersonById(@PathVariable long id) {
+        if (personService.deletePersonById(id)) {
+            return ResponseEntity
+                    .ok()
+                    .build();
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
         }
-    }
-
-    @GetMapping(path = "/quote")
-    public Quote getQuote() {
-        RestTemplateBuilder builder = new RestTemplateBuilder();
-        RestTemplate template = builder.build();
-
-        Quote quote = template.getForObject("https://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-        return quote;
     }
 }
 

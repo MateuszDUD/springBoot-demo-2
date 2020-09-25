@@ -11,12 +11,16 @@ import java.util.Optional;
 @Service
 public class PersonService {
 
+    @Autowired
     private PersonRepository repository;
 
+    public PersonService() {}
+    /*
     @Autowired
     public PersonService(PersonRepository repository) {
         this.repository = repository;
     }
+    */
 
     public void addPerson(PersonJpa personJpa) {
         repository.save(personJpa);
@@ -41,5 +45,9 @@ public class PersonService {
 
     public Optional<PersonJpa> getPersonById(long id) {
         return repository.findById(Long.valueOf(id));
+    }
+
+    public PersonJpa getPersonByFirstName(String firstName) {
+        return repository.findByFirstName(firstName);
     }
 }
