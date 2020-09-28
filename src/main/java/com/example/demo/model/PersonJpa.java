@@ -3,6 +3,7 @@ package com.example.demo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -14,7 +15,15 @@ public class PersonJpa {
     private String firstName;
     private String lastName;
 
-    protected PersonJpa() {};
+    private BigDecimal number;
+
+    public PersonJpa() {};
+
+    public PersonJpa(String firstName, String lastName, BigDecimal number) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.number = number;
+    }
 
     public PersonJpa(String firstName, String lastName) {
         this.firstName = firstName;
