@@ -29,30 +29,32 @@ public class PersonController {
     }
 
     @PostMapping
-    public void addPerson(@RequestBody PersonJpa person) {
+    public ResponseEntity addPerson(@RequestBody PersonJpa person) {
         personService.addPerson(person);
+        return ResponseEntity.ok()
+                .build();
     }
 
     @GetMapping(path = "{lastName}")
-    public List<PersonJpa> getPeopleByLastName(@PathVariable String lastName) {
+    public ResponseEntity<List<PersonJpa>> getPeopleByLastName(@PathVariable String lastName) {
         List<PersonJpa> listOfPeople = personService.getPeopleByLastName(lastName);
-        return listOfPeople;
+        return ResponseEntity.ok(listOfPeople);
     }
 
     @GetMapping
-    public Iterable<PersonJpa> getAllPeople() {
+    public ResponseEntity<Iterable<PersonJpa>> getAllPeople() {
         logger.info("An INFO Message");
         logger.warn("A WARN Message");
         logger.error("An ERROR Message");
-        return personService.getAllPeople();
+        return ResponseEntity.ok(personService.getAllPeople());
     }
 
     @GetMapping(path = "/id/{id}")
-    public PersonJpa getPersonById(@PathVariable long id) {
+    public ResponseEntity<PersonJpa> getPersonById(@PathVariable long id) {
         PersonJpa person = personService.getPersonById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
         logger.info("found person with id: " + person.getId());
-        return person;
+        return ResponseEntity.ok(person);
     }
 
     @DeleteMapping(path = "{id}")
