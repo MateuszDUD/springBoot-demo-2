@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -52,11 +54,22 @@ public class PersonController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<PersonJpa>> getAllPeople() {
-        logger.info("An INFO Message");
-        logger.warn("A WARN Message");
-        logger.error("An ERROR Message");
-        return ResponseEntity.ok(personService.getAllPeople());
+    public ResponseEntity<Iterable<PersonJpa>> getAllPeople(@RequestParam(required = false, name = "size") Integer size,
+                                                            @RequestParam(required = false, name = "page") Integer page) {
+        Iterable<PersonJpa> people;
+        if (size == null || page == null) {
+            people = personService.getAllPeople();
+            logger.debug("Size: " + size);
+            logger.debug("Page" + page);
+        } else {
+            people = personService.getAllPeoplePaginated(PageRequest.of(page, size));
+        }
+
+        if (people != null) {
+            return ResponseEntity.ok(people);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(path = "/id/{id}")
