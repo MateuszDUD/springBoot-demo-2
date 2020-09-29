@@ -54,10 +54,13 @@ public class PersonServiceMockTest {
         assertThat(found).isNotNull();
     }
 
+    /*
     @Test
     public void whenDeletedInvalidId_thenFalseShouldBeReturned() {
         boolean v = personService.deletePersonById(5);
 
         assertThat(v).isEqualTo(false);
     }
+
+     */
 }

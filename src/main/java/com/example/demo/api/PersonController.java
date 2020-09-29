@@ -38,6 +38,9 @@ public class PersonController {
     @GetMapping(path = "{lastName}")
     public ResponseEntity<List<PersonJpa>> getPeopleByLastName(@PathVariable String lastName) {
         List<PersonJpa> listOfPeople = personService.getPeopleByLastName(lastName);
+        if (listOfPeople.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(listOfPeople);
     }
 
@@ -59,16 +62,7 @@ public class PersonController {
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity deletePersonById(@PathVariable long id) {
-        if (personService.deletePersonById(id)) {
-            return ResponseEntity
-                    .ok()
-                    .build();
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-        }
+        personService.deletePersonById(id);
+        return ResponseEntity.ok().build();
     }
 }
-
-

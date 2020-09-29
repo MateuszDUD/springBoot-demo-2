@@ -38,7 +38,8 @@ public class PersonService {
         return repository.findAll();
     }
 
-    public boolean deletePersonById(long id) {
+    public void deletePersonById(long id) {
+        /*
         if (repository.existsById(id)) {
             repository.deleteById(id);
             logger.info("One person deleted. ID: " + id);
@@ -46,6 +47,8 @@ public class PersonService {
         } else {
             return false;
         }
+         */
+        repository.deleteById(id);
     }
 
     public Optional<PersonJpa> getPersonById(long id) {
