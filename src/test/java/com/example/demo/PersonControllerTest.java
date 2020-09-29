@@ -17,11 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +34,7 @@ public class PersonControllerTest {
     @MockBean
     private PersonService personService;
 
-    @Test()
+    @Test
     public void validateRequestMatching() throws Exception {
         mockMvc.perform(get("/api/jpa/person")
                 .contentType("application/json"))
@@ -45,6 +43,12 @@ public class PersonControllerTest {
 
     @Test
     public void whenNotExistingId_thenReturn404() throws Exception {
+        mockMvc.perform(get("/api/jpa/person/id/{id}", 5)
+                .contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof PersonNotFoundException));
+
+        /*
         MvcResult mvcResult = mockMvc.perform(get("/api/jpa/person/id/{id}", 5)
                 .contentType("application/json"))
                 .andExpect(status().isNotFound())
@@ -56,5 +60,8 @@ public class PersonControllerTest {
 
         assertThat(actualResponseBody)
                 .isEqualToIgnoringWhitespace(expectedResponseBody);
+         */
     }
+
+
 }
