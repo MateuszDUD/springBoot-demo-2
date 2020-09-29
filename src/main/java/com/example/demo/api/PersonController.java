@@ -1,5 +1,6 @@
 package com.example.demo.api;
 
+import com.example.demo.errors.PersonValidationErrorBuilder;
 import com.example.demo.exception.PersonNotFoundException;
 import com.example.demo.model.PersonJpa;
 import com.example.demo.model.Quote;
@@ -11,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("api/jpa/person")
@@ -29,7 +32,11 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity addPerson(@RequestBody PersonJpa person) {
+    public ResponseEntity<Object> addPerson(@RequestBody @Valid PersonJpa person, Errors errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest()
+                    .body(PersonValidationErrorBuilder.fromBindingErrors(errors));
+        }
         personService.addPerson(person);
         return ResponseEntity.ok()
                 .build();

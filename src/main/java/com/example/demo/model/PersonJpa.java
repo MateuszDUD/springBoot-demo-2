@@ -3,6 +3,8 @@ package com.example.demo.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -12,7 +14,14 @@ public class PersonJpa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
+    @NotBlank
     private String firstName;
+
+
+    @NotNull
+    @NotBlank
     private String lastName;
 
     private BigDecimal number;

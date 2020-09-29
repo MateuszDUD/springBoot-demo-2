@@ -1,8 +1,7 @@
 package com.example.demo.api;
 
-import com.example.demo.ApiError;
+import com.example.demo.errors.ApiError;
 import com.example.demo.exception.PersonNotFoundException;
-import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
