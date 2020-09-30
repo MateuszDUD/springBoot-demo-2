@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.Priority;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,10 +20,11 @@ public class PersonJpa {
     @NotBlank
     private String firstName;
 
-
     @NotNull
     @NotBlank
     private String lastName;
+
+    private Priority priority;
 
     private BigDecimal number;
 

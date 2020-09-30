@@ -1,5 +1,6 @@
 package com.example.demo.api;
 
+import com.example.demo.enums.Priority;
 import com.example.demo.errors.PersonValidationErrorBuilder;
 import com.example.demo.exception.PersonNotFoundException;
 import com.example.demo.model.PersonJpa;
@@ -39,6 +40,7 @@ public class PersonController {
             return ResponseEntity.badRequest()
                     .body(PersonValidationErrorBuilder.fromBindingErrors(errors));
         }
+
         personService.addPerson(person);
         return ResponseEntity.ok()
                 .build();
