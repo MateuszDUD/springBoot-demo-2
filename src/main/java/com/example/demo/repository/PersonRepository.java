@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
+import com.example.demo.enums.Priority;
 import com.example.demo.model.PersonJpa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,4 +26,8 @@ public interface PersonRepository extends JpaRepository<PersonJpa, Long> {
 
     @Override
     Optional<PersonJpa> findById(Long aLong);
+
+    List<PersonJpa> findAllByPriority(Priority priority);
+
+    List<PersonJpa> findAllByNumberBetween(BigDecimal min, BigDecimal max);
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.enums.Priority;
 import com.example.demo.model.PersonJpa;
 import com.example.demo.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,5 +69,11 @@ public class PersonService {
 
     public PersonJpa getPersonByFirstName(String firstName) {
         return repository.findByFirstName(firstName);
+    }
+
+    public List<PersonJpa> getPeopleByPriority(Priority priority) { return repository.findAllByPriority(priority); }
+
+    public List<PersonJpa> getPeopleByNumberBetween(BigDecimal min, BigDecimal max) {
+        return repository.findAllByNumberBetween(min, max);
     }
 }

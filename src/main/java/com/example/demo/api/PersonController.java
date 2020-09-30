@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
-@RequestMapping("api/jpa/person")
+@RequestMapping("api/person")
 @RestController
 public class PersonController {
     private static Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -80,6 +81,17 @@ public class PersonController {
                 .orElseThrow(() -> new PersonNotFoundException(id));
         logger.info("found person with id: " + person.getId());
         return ResponseEntity.ok(person);
+    }
+
+    @GetMapping(path = "/priority")
+    public ResponseEntity<?> getPeopleByPriority(@RequestParam(name = "priority") Priority priority) {
+        return ResponseEntity.ok(personService.getPeopleByPriority(priority));
+    }
+
+    @GetMapping(path = "/number")
+    public ResponseEntity<?> getPeopleByNumber(@RequestParam(name = "min")BigDecimal min,
+                                               @RequestParam(name = "max")BigDecimal max) {
+        return ResponseEntity.ok(personService.getPeopleByNumberBetween(min, max));
     }
 
     @DeleteMapping(path = "{id}")

@@ -23,6 +23,5 @@ public class QuoteService {
 
     public Optional<Quote> getQuote() {
         return Optional.of(restTemplate.getForObject(restUrl, Quote.class));
-
     }
 }
