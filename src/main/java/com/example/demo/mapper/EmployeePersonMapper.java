@@ -8,12 +8,14 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public abstract class EmployeePersonMapper {
 
     public PersonJpa employeeToPersonJpa(Employee employee) {
         PersonJpa personJpa = new PersonJpa();
-        personJpa.setNumber(new BigDecimal(employee.getNumberLong()));
+        if (employee.getNumberLong() != null) {
+            //personJpa.setNumber(new BigDecimal(employee.getNumberLong()));
+        }
         return personJpa;
     }
 

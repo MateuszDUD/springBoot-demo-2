@@ -30,7 +30,6 @@ public class PersonControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @MockBean
     private PersonService personService;
 
@@ -47,7 +46,6 @@ public class PersonControllerTest {
                 .contentType("application/json"))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof PersonNotFoundException));
-
         /*
         MvcResult mvcResult = mockMvc.perform(get("/api/jpa/person/id/{id}", 5)
                 .contentType("application/json"))
@@ -62,6 +60,4 @@ public class PersonControllerTest {
                 .isEqualToIgnoringWhitespace(expectedResponseBody);
          */
     }
-
-
 }

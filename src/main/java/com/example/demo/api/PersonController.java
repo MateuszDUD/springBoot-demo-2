@@ -3,6 +3,9 @@ package com.example.demo.api;
 import com.example.demo.enums.Priority;
 import com.example.demo.errors.PersonValidationErrorBuilder;
 import com.example.demo.exception.PersonNotFoundException;
+import com.example.demo.mapper.EmployeePersonMapper;
+import com.example.demo.mapper.PersonEmployeeMapper;
+import com.example.demo.model.Employee;
 import com.example.demo.model.PersonJpa;
 import com.example.demo.model.Quote;
 import com.example.demo.repository.PersonRepository;
@@ -30,9 +33,12 @@ public class PersonController {
 
     private PersonService personService;
 
+    private PersonEmployeeMapper mapper;
+
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, PersonEmployeeMapper mapper) {
         this.personService = personService;
+        this.mapper = mapper;
     }
 
     @PostMapping
@@ -45,6 +51,15 @@ public class PersonController {
         personService.addPerson(person);
         return ResponseEntity.ok()
                 .build();
+    }
+
+    @PostMapping(path = "/employee")
+    public ResponseEntity<?> addEmployee(@RequestBody Employee employee) {
+        //logger.info(employee.getNumberLong().toString());
+        PersonJpa person = mapper.employeeToPerson(employee);
+        //logger.info(person.getNumber().toString());
+        personService.addPerson(person);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(path = "{lastName}")
@@ -63,7 +78,7 @@ public class PersonController {
         if (size == null || page == null) {
             people = personService.getAllPeople();
             logger.debug("Size: " + size);
-            logger.debug("Page" + page);
+            logger.debug("Page: " + page);
         } else {
             people = personService.getAllPeoplePaginated(PageRequest.of(page, size));
         }

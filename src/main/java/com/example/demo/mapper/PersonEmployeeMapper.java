@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PersonEmployeeMapper {
 
-    //@Mapping(source="firstName", target="firstName")
+    @Mapping(target="number", source="employee.numberLong")
     PersonJpa employeeToPerson(Employee employee);
 }
