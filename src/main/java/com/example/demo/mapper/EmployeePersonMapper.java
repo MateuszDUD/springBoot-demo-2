@@ -14,7 +14,7 @@ public abstract class EmployeePersonMapper {
     public PersonJpa employeeToPersonJpa(Employee employee) {
         PersonJpa personJpa = new PersonJpa();
         if (employee.getNumberLong() != null) {
-            //personJpa.setNumber(new BigDecimal(employee.getNumberLong()));
+            personJpa.setNumber(employee.getNumberLong());
         }
         return personJpa;
     }

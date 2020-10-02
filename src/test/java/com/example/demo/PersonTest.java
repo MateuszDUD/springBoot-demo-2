@@ -29,7 +29,7 @@ public class PersonTest {
     }
 
     @Test
-    public void whenSaveE() {
+    public void whenSaveEmployeeWithoutNumber_getPersonWithoutNumber() {
         Employee employee = new Employee();
         employee.setFirstName("Jano");
         employee.setLastName("Van");
@@ -53,7 +53,7 @@ public class PersonTest {
     }
 
     @Test
-    public void vd() {
+    public void whenSaveEmployeewithNumber_getPersonWithNumber() {
         Employee employee = new Employee();
         employee.setFirstName("Jano");
         employee.setLastName("Van");
